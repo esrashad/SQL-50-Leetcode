@@ -1,9 +1,0 @@
-WITH person_turn AS (
-   SELECT turn, SUM(weight) OVER (ORDER BY turn) AS running_total
-   FROM Queue  
-)
-SELECT TOP 1 q.person_name
-FROM Queue q
-JOIN person_turn p ON q.turn = p.turn
-WHERE p.running_total <= 1000
-ORDER BY q.turn DESC;
