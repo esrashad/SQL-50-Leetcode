@@ -1,0 +1,11 @@
+with mgr_cnt as (
+select m.id,m.name,count(*) as mgr_count
+from Employee e
+join Employee m
+on m.id=e.managerId 
+group by m.id,m.name
+)
+select name 
+from mgr_cnt
+where mgr_count >= 5
+
