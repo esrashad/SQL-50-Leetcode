@@ -1,0 +1,13 @@
+with first_login as (select min(event_date) as first_login,player_id
+                    from Activity
+                    group by player_id),
+
+next_day as(
+select DATEADD(DAY,1,first_login) as next_day,player_id
+from first_login)
+
+select round(sum(case when n.next_day=a.event_date then 1.0 else 0 end)/count(distinct a.player_id),2) as fraction
+from Activity a
+join next_day n
+on n.player_id=a.player_id
+
