@@ -1,0 +1,21 @@
+with first_order as (
+    select customer_id, min(order_date) as first_order_date
+    from Delivery 
+    group by customer_id
+),
+pd as (
+    select d.customer_id, d.order_date,
+           case when d.order_date = d.customer_pref_delivery_date 
+                then 'immediate'
+                else 'scheduled'
+           end as preferred_delivery
+    from Delivery d
+    join first_order f
+      on d.customer_id = f.customer_id 
+     and d.order_date = f.first_order_date
+)
+select round(
+           sum(case when preferred_delivery='immediate' then 1.0 else 0 end) 
+           * 100.0 / count(*), 2
+       ) as immediate_percentage 
+from pd;
