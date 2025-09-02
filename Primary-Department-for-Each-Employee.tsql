@@ -1,0 +1,16 @@
+with dept_cnt as(
+    select employee_id,count(department_id) as dept_cnt 
+    from  Employee 
+    group by employee_id
+)
+
+select d.employee_id,
+        case 
+        when d.dept_cnt=1 and e.primary_flag ='N' then e.department_id
+        when d.dept_cnt>1 and e.primary_flag ='Y' then e.department_id
+        end as department_id 
+from Employee e
+join dept_cnt d
+on e.employee_id=d.employee_id
+where (d.dept_cnt = 1 and e.primary_flag = 'N')
+   or (d.dept_cnt > 1 and e.primary_flag = 'Y');
