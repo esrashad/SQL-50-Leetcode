@@ -1,0 +1,14 @@
+select l.num as ConsecutiveNums 
+from Logs l
+join Logs o on o.id = l.id + 1
+join Logs g on g.id = o.id + 1
+where l.num = o.num
+  and o.num = g.num
+group by l.num
+
+-- select l.id,l.num,o.id,o.num,g.id,g.num
+-- from Logs l
+-- join Logs o on o.id = l.id + 1
+-- join Logs g on g.id = o.id + 1
+
+
