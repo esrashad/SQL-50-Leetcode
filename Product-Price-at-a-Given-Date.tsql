@@ -1,0 +1,18 @@
+with last_date as (
+    select product_id, max(change_date) as last_date
+    from Products
+    where change_date <= '2019-08-16'
+    group by product_id
+),
+last_price as (
+    select p.product_id, p.new_price
+    from Products p
+    join last_date l
+      on p.product_id = l.product_id
+     and p.change_date = l.last_date
+)
+select d.product_id,
+       coalesce(lp.new_price, 10) as price
+from (select distinct product_id from Products) d
+left join last_price lp
+  on d.product_id = lp.product_id;
