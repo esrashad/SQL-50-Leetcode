@@ -1,0 +1,12 @@
+with acc_weight as (
+    select person_id,
+           person_name,
+           sum(weight) over (order by turn) as sum_weight
+from Queue
+)
+select top 1 person_name
+from acc_weight
+where sum_weight<=1000
+order by sum_weight desc
+
+
