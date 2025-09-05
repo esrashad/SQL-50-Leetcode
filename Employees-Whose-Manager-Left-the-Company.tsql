@@ -1,0 +1,11 @@
+with emp_cte as (
+    select employee_id, manager_id
+    from Employees
+    where salary < 30000 and manager_id is not null
+)
+select ec.employee_id
+from emp_cte ec
+left join Employees e
+    on e.employee_id = ec.manager_id
+where e.employee_id is null
+order by ec.employee_id;
