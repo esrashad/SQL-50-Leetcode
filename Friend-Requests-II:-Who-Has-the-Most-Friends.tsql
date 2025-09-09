@@ -1,0 +1,24 @@
+-- with friends as (
+--     select requester_id as friend_id ,count(accepter_id ) as num
+--     from RequestAccepted 
+--     group by requester_id
+--     union all
+--     select accepter_id ,count(requester_id)
+--     from RequestAccepted 
+--     group by accepter_id
+-- )
+-- select top 1 friend_id as id ,sum(num) as num 
+-- from friends
+-- group by friend_id
+-- order by num desc
+with all_friends as (
+  select requester_id as id, accepter_id as friend
+  from requestaccepted
+  union all
+  select accepter_id as id, requester_id as friend
+  from requestaccepted
+)
+select top 1 id, count(distinct friend) as num
+from all_friends
+group by id
+order by num desc;
