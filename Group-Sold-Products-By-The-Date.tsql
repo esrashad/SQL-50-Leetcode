@@ -8,3 +8,9 @@ SELECT
     STRING_AGG(product, ',') WITHIN GROUP (ORDER BY product) AS products
 FROM distinct_products
 GROUP BY sell_date
+
+-- select sell_date,count(distinct product) as num_sold ,
+-- string_agg(product,',') within group (order by product ) as products from
+-- (select distinct sell_date , product from  activities ) as distinctproduct
+-- group by sell_date
+-- order by sell_date
