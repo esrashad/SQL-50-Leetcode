@@ -8,3 +8,8 @@ SELECT COALESCE(
            NULL
        ) AS SecondHighestSalary
 FROM ranktable
+
+-- SELECT 
+--     MAX(salary) SecondHighestSalary
+-- From Person
+-- WHERE salary < (SELECT MAX(salary) FROM Person);
