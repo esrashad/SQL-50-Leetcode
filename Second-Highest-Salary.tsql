@@ -1,0 +1,10 @@
+WITH ranktable AS (
+    SELECT salary,
+           DENSE_RANK() OVER (ORDER BY salary DESC) AS dr
+    FROM Employee
+)
+SELECT COALESCE(
+           MAX(CASE WHEN dr = 2 THEN salary END),
+           NULL
+       ) AS SecondHighestSalary
+FROM ranktable
